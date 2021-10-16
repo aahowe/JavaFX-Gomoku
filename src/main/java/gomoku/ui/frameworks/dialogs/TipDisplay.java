@@ -6,7 +6,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import gomoku.ui.Configure;
+import gomoku.ConfigService;
 import gomoku.ui.animations.EasingProperty;
 import gomoku.ui.frameworks.ContentPane;
 import gomoku.ui.nodes.ContextLabel;
@@ -36,7 +36,7 @@ public class TipDisplay extends PopupBase {
         rcBkg.getStyleClass().add("black_pad_background_rectangle");
         rcBkg.setWidth(width);
         rcBkg.setHeight(height);
-        icon = new ImageView(Configure.getResource("drawable/icon/msg.png"));
+        icon = new ImageView(ConfigService.getResource("drawable/icon/msg.png"));
         icon.setLayoutX(20);
         icon.layoutYProperty().bind(this.prefHeightProperty().subtract(icon.getImage().getHeight()).divide(2));
         label = new ContextLabel("测试");

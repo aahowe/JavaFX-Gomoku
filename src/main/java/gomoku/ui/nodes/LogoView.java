@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import gomoku.ui.Configure;
+import gomoku.ConfigService;
 import gomoku.ui.animations.EasingProperty;
 
 /**
@@ -18,9 +18,10 @@ public class LogoView extends Pane {
     private Label info;
     private EasingProperty logoAnimation;
     private EasingProperty bkgAnimation;
-    public static final String infoStr = "Gomoku \n\n" +
-            "作者\t\t王昊\n" +
-            "完成日期\t2021年10月17日\n\n";
+    public static final String infoStr = "Gomoku \n" +
+            "作者\t\thowe.wang\n" +
+            "版本\t\t1.0\n"+
+            "参考开源项目\tiGoBang(动画组件)\n\t\t\tAiringGo(五子棋逻辑)\n\t\t\tJFoenix(UI组件)";
     public static final double width = 800;
     public static final double height = 500;
     public boolean stretched = false;
@@ -29,7 +30,7 @@ public class LogoView extends Pane {
         super();
         setPrefWidth(width);
         setPrefHeight(height);
-        logo = new ImageView(Configure.getResource("drawable/logo.png"));
+        logo = new ImageView(ConfigService.getResource("drawable/logo.png"));
 
         bkg = new Pane();
         bkgRec = new Rectangle(width, height);

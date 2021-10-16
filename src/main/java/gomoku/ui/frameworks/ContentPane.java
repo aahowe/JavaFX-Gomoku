@@ -2,14 +2,12 @@ package gomoku.ui.frameworks;
 
 import gomoku.kernel.Save;
 import javafx.scene.layout.Pane;
-import gomoku.ui.Configure;
+import gomoku.ConfigService;
 import gomoku.ui.animations.EasingProperty;
 import gomoku.ui.frameworks.dialogs.*;
-import gomoku.ui.nodes.IconButton;
 import gomoku.ui.nodes.MenuBar;
 import gomoku.ui.nodes.TimeDisplay;
 
-import java.security.MessageDigest;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,13 +24,11 @@ public class ContentPane extends Pane {
     private GameDisplay gameDisplay;
     private NameInputDialog nameInputDialog;
     private LoginDialog loginDialog;
+    public Loading loading;
 
     private boolean popupShowed = false;
     private PopupBase currentPopup;
     private MenuBar menuBar;
-    private IconButton skinButton;
-    private IconButton musicButton;
-    private SkinSelector skinSelector;
     private TipDisplay tipDisplay;
 
     private List<Save> saveList;
@@ -47,6 +43,8 @@ public class ContentPane extends Pane {
         tipDisplay = new TipDisplay();
         tipDisplay.setLayoutY(30);
         tipDisplay.setLayoutX(100);
+
+        //loading=new Loading();
 
         menuBar = new MenuBar();
         menuBar.addButton("登录");
@@ -63,28 +61,22 @@ public class ContentPane extends Pane {
         exitDialog.getButtonBar().getButton(0).setOnAction(e -> {
             Username = "";
             showTips("注销成功");
+            getLoginDialog().getNameField().setText("");
+            getLoginDialog().getPassWordField().setText("");
             showDialog(getLoginDialog());
         });
 
         gameDisplay = new GameDisplay();
         nameInputDialog = new NameInputDialog();
 
+        bkg.addBackgroundChannel("drawable/background/background.png");
 
-        skinSelector = new SkinSelector();
-        skinSelector.setLayoutY(20);
-        skinButton = new IconButton(Configure.getResource("drawable/icon/skin.png"));
-        skinButton.setLayoutX(Configure.viewportWidth - skinButton.getPrefWidth() - 5);
-        skinButton.setLayoutY(20);
-        skinButton.setOnAction(e -> {
-            hidePopup();
-            showPopup(skinSelector);
-        });
-
-
-        getChildren().addAll(bkg, menuBar, skinButton);
+        getChildren().addAll(bkg, menuBar);
 
         menuBar.getButton(0).setOnAction(e -> {
             if (Objects.equals(Username, "")) {
+                getLoginDialog().getNameField().setText("");
+                getLoginDialog().getPassWordField().setText("");
                 showDialog(getLoginDialog());
             } else {
                 hideDialog();
@@ -93,6 +85,7 @@ public class ContentPane extends Pane {
             }
         });
         menuBar.getButton(1).setOnAction(e -> {
+            bkg.getLogoView().unstretch();
             if (Objects.equals(Username, "")) {
                 showTips("请先登录");
             } else {
@@ -100,6 +93,7 @@ public class ContentPane extends Pane {
             }
         });
         menuBar.getButton(2).setOnAction(e -> {
+            bkg.getLogoView().unstretch();
             if (Objects.equals(Username, "")) {
                 showTips("请先登录");
             } else {
@@ -108,15 +102,12 @@ public class ContentPane extends Pane {
             }
         });
         menuBar.getButton(3).setOnAction(e -> {
-            if (bkg.getLogoView().isStretched()) {
-                bkg.getLogoView().unstretch();
-            } else {
-                bkg.getLogoView().stretch();
-                hideDialog();
-                hidePopup();
-            }
+            bkg.getLogoView().stretch();
+            hideDialog();
+            hidePopup();
         });
         menuBar.getButton(4).setOnAction(e -> {
+            bkg.getLogoView().unstretch();
             if (Objects.equals(Username, "")) {
                 showTips("请先登录");
             } else {
@@ -154,8 +145,8 @@ public class ContentPane extends Pane {
         }
         double width = dialog.getPreferredWidth();
         double height = dialog.getPreferredHeight();
-        dialog.setPrefWidth(Configure.viewportWidth);
-        dialog.setPrefHeight(Configure.viewportHeight);
+        dialog.setPrefWidth(ConfigService.viewportWidth);
+        dialog.setPrefHeight(ConfigService.viewportHeight);
         dialog.setOpacity(0.0);
         dialog.layoutXProperty().bind(widthProperty().subtract(dialog.prefWidthProperty()).divide(2));
         dialog.layoutYProperty().bind(heightProperty().subtract(menuBar.prefHeightProperty()).subtract(dialog.prefHeightProperty()).divide(2));
@@ -182,8 +173,8 @@ public class ContentPane extends Pane {
             EasingProperty widthAnimation = new EasingProperty(currentDialog.prefWidthProperty());
             EasingProperty heightAnimation = new EasingProperty(currentDialog.prefHeightProperty());
             EasingProperty opacityAnimation = new EasingProperty(currentDialog.opacityProperty());
-            widthAnimation.setToValue(Configure.viewportWidth);
-            heightAnimation.setToValue(Configure.viewportHeight);
+            widthAnimation.setToValue(ConfigService.viewportWidth);
+            heightAnimation.setToValue(ConfigService.viewportHeight);
             opacityAnimation.setToValue(0.0);
             currentDialog.setMouseTransparent(true);
             bkg.unBlur();
@@ -191,6 +182,7 @@ public class ContentPane extends Pane {
         }
     }
     //隐藏当前对话框
+
 
     public void showPopup(PopupBase popup) {
         if (currentPopup == popup && popupShowed) {
@@ -201,7 +193,7 @@ public class ContentPane extends Pane {
             currentPopup = null;
         }
         popup.setOpacity(0.0);
-        double ori = Configure.viewportWidth - popup.getPrefWidth();
+        double ori = ConfigService.viewportWidth - popup.getPrefWidth();
         popup.setLayoutX(ori);
         EasingProperty easeX = new EasingProperty(popup.layoutXProperty());
         EasingProperty easeOpacity = new EasingProperty(popup.opacityProperty());
@@ -219,7 +211,7 @@ public class ContentPane extends Pane {
         if (currentPopup == null) {
             return;
         }
-        double toX = Configure.viewportWidth;
+        double toX = ConfigService.viewportWidth;
         EasingProperty easeX = new EasingProperty(currentPopup.layoutXProperty());
         EasingProperty easeOpacity = new EasingProperty(currentPopup.opacityProperty());
         easeX.setToValue(toX);
@@ -277,4 +269,5 @@ public class ContentPane extends Pane {
     public void setSaveList(List<Save> saveList) {
         this.saveList = saveList;
     }
+
 }

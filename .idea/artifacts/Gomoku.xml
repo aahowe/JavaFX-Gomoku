@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="Gomoku">
+    <output-path>$PROJECT_DIR$/out/artifacts/Gomoku</output-path>
+    <root id="root">
+      <element id="archive" name="Gomoku.jar">
+        <element id="module-output" name="Gomoku" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -31,7 +31,9 @@ public class Controller {
     //返回自身
 
     public void push(int i, int j) {
+        //设置计时终点
         gameDisplay.getGo().setEnd(System.currentTimeMillis());
+
         long time = gameDisplay.getGo().getTime();
         if (save.getSteps().empty())
             gameDisplay.getOperationBar().getTimeDisplay().start();
@@ -39,24 +41,31 @@ public class Controller {
         int currentType = getCurrentType();
         StepListView list = gameDisplay.getOperationBar().getListView();
         save.getChessBoard()[i][j] = currentType;
-        save.getSteps().push(new Step(i, j, time));
+        //若为第一个step，时间为0
+        if (save.getSteps().size()==0){
+            save.getSteps().push(new Step(i, j, 0));
+        }else{
+            save.getSteps().push(new Step(i, j, time));
+        }
+
         if (currentType == PieceType.BLACK) {
             gameDisplay.getGo().iGo(i, j, currentType);
             gameDisplay.getPiece(i, j).push(currentType);
-            list.getItems().add("[" + getTypeName(currentType) + "]" + " " + getPieceName(i, j));
+            list.getItems().add("[" + getTypeName(currentType) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float)save.getSteps().peek().getTime() / 1000 + " 秒");
             list.getSelectionModel().select(list.getItems().size() - 1);
             if (gameDisplay.getGo().isAi()) {
                 int[] ai = gameDisplay.getGo().aiGo(PieceType.WHITE);
-                save.getSteps().push(new Step(ai[0], ai[1], time));
+                save.getSteps().push(new Step(ai[0], ai[1], 0));
                 gameDisplay.getPiece(ai[0], ai[1]).push(PieceType.WHITE);
-                list.getItems().add("[" + getTypeName(currentType) + "]" + " " + getPieceName(i, j));
+                save.getChessBoard()[ai[0]][ai[1]] = PieceType.WHITE;
+                list.getItems().add("[" + getTypeName(PieceType.WHITE) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float)save.getSteps().peek().getTime() / 1000 + " 秒");
                 list.getSelectionModel().select(list.getItems().size() - 1);
                 gameDisplay.getGo().setStart(System.currentTimeMillis());
             }
         } else if (currentType == PieceType.WHITE) {
             gameDisplay.getGo().iGo1(i, j, currentType);
             gameDisplay.getPiece(i, j).push(currentType);
-            list.getItems().add("[" + getTypeName(currentType) + "]" + " " + getPieceName(i, j));
+            list.getItems().add("[" + getTypeName(currentType) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float)save.getSteps().peek().getTime() / 1000 + " 秒");
             list.getSelectionModel().select(list.getItems().size() - 1);
         }
         if (gameDisplay.getGo().getWin() != PieceType.EMPTY) {
@@ -70,10 +79,6 @@ public class Controller {
             gameDisplay.setClosed(true);
         }
         gameDisplay.getGo().setStart(System.currentTimeMillis());
-
-        for (Step s : save.getSteps()) {
-            System.out.println(s.getTime()+" ms");
-        }
     }
     //下棋
 
@@ -163,7 +168,8 @@ public class Controller {
             int j = step.getJ();
             int type = save.getChessBoard()[i][j];
             gameDisplay.getPiece(i, j).push(type);
-            list.getItems().add("[" + getTypeName(type) + "]" + " " + getPieceName(i, j));
+            System.out.println(type);
+            list.getItems().add("[" + getTypeName(type) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float)step.getTime() / 1000 + " 秒");
         }
         list.getSelectionModel().select(list.getItems().size() - 1);
         TimeDisplay timeDisplay = gameDisplay.getOperationBar().getTimeDisplay();
@@ -220,6 +226,10 @@ public class Controller {
 
     public String getCurrentSave() {
         return this.currentSave;
+    }
+
+    public int getPeekIndex() {
+        return peekIndex;
     }
 
     public void setCurrentSave(String save) {

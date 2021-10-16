@@ -7,7 +7,6 @@ import gomoku.ui.nodes.ButtonBar;
  */
 
 public class DialogBase extends PopupBase {
-    private boolean showButtonBar = false;
     private ButtonBar buttonBar;
 
     public DialogBase(double preferredWidth, double preferredHeight) {
@@ -17,7 +16,6 @@ public class DialogBase extends PopupBase {
 
     public DialogBase(double preferredWidth, double preferredHeight, boolean showButtonBar) {
         this(preferredWidth, preferredHeight);
-        this.showButtonBar = showButtonBar;
         if (showButtonBar) {
             buttonBar = new ButtonBar();
             buttonBar.setPrefWidth(preferredWidth);

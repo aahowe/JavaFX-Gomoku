@@ -8,7 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 /**
- * 属性滚动类，详细原理请参考项目开发文档
+ * 属性滚动类
  */
 
 public class SlowRolling {

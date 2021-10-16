@@ -3,7 +3,7 @@ package gomoku.ui.elements;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import gomoku.kernel.PieceType;
-import gomoku.ui.Configure;
+import gomoku.ConfigService;
 import gomoku.ui.animations.EasingProperty;
 
 /**
@@ -27,19 +27,12 @@ public class Piece extends Pane {
     private EasingProperty blackScaleAnimation;
     private EasingProperty blackOpacityAnimation;
 
-    private ImageView highlightWhite;
-    private ImageView highlightBlack;
-    private EasingProperty highlightWhiteAnimation;
-    private EasingProperty highlightBlackAnimation;
-
     public Piece() {
         super();
         this.setOpacity(0.8);
         setPrefSize(width, height);
-        pieceWhite = new ImageView(Configure.getResource("drawable/piece_white.png"));
-        pieceBlack = new ImageView(Configure.getResource("drawable/piece_black.png"));
-        highlightWhite = new ImageView(Configure.getResource("drawable/highlight_white.png"));
-        highlightBlack = new ImageView(Configure.getResource("drawable/highlight_black.png"));
+        pieceWhite = new ImageView(ConfigService.getResource("drawable/piece_white.png"));
+        pieceBlack = new ImageView(ConfigService.getResource("drawable/piece_black.png"));
 
         pieceWhite.layoutXProperty().bind(this.widthProperty().subtract(pieceWhite.fitWidthProperty()).divide(2));
         pieceWhite.layoutYProperty().bind(this.heightProperty().subtract(pieceWhite.fitHeightProperty()).divide(2));
@@ -56,8 +49,6 @@ public class Piece extends Pane {
         pieceBlack.setEffect(blackScaleAnimation.getBlur());
         pieceWhite.setEffect(whiteScaleAnimation.getBlur());
 
-        highlightWhiteAnimation = new EasingProperty(highlightWhite.opacityProperty());
-        highlightBlackAnimation = new EasingProperty(highlightBlack.opacityProperty());
     }
 
     public void push(int type) {
@@ -101,7 +92,6 @@ public class Piece extends Pane {
         if (currentType == PieceType.EMPTY) {
             return;
         }
-        unhighlight();
         currentScaleAnimation.setToValue(width * 1.5);
         currentOpacityAnimation.setToValue(0.0);
         currentType = PieceType.EMPTY;
@@ -112,36 +102,4 @@ public class Piece extends Pane {
     }
     //取消棋子的显示
 
-    public void highlight(double opacity) {
-        EasingProperty animation;
-        ImageView img;
-        if (currentType == PieceType.BLACK) {
-            animation = highlightBlackAnimation;
-            img = highlightBlack;
-        } else if (currentType == PieceType.WHITE) {
-            animation = highlightWhiteAnimation;
-            img = highlightWhite;
-        } else {
-            return;
-        }
-        if (!getChildren().contains(img)) {
-            getChildren().add(img);
-        }
-        animation.setValueImmediately(0);
-        animation.setToValue(opacity);
-    }
-    //高亮显示该棋子（opacity指定透明度）
-
-    public void unhighlight() {
-        EasingProperty animation;
-        if (currentType == PieceType.BLACK) {
-            animation = highlightBlackAnimation;
-        } else if (currentType == PieceType.WHITE) {
-            animation = highlightWhiteAnimation;
-        } else {
-            return;
-        }
-        animation.setToValue(0.0);
-    }
-    //取消高亮显示
 }

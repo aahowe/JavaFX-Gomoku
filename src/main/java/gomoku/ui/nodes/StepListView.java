@@ -1,7 +1,7 @@
 package gomoku.ui.nodes;
 
 import javafx.scene.control.ListView;
-import gomoku.ui.Configure;
+import gomoku.ConfigService;
 
 /**
  * 悔棋栈列表框（用于实时悔棋）
@@ -9,6 +9,6 @@ import gomoku.ui.Configure;
 
 public class StepListView extends ListView<String> {
     public StepListView() {
-        getStylesheets().add(Configure.getResource("stylesheet/steplist.css"));
+        getStylesheets().add(ConfigService.getResource("stylesheet/steplist.css"));
     }
 }

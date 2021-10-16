@@ -3,8 +3,12 @@ package gomoku.ui.frameworks.dialogs;
 
 import gomoku.database.Operate;
 import gomoku.ui.frameworks.ContentPane;
+import javafx.scene.image.ImageView;
 
 public class LoginDialog extends LoginBox {
+
+    ImageView account;
+    ImageView password;
 
     public LoginDialog() {
         super("登录", "");
@@ -12,8 +16,15 @@ public class LoginDialog extends LoginBox {
                 validate()
         );
         getButtonBar().getButton(1).setOnAction(e ->
-                add(nameField.getText(), passWordField.getText())
+                add()
         );
+        account = new ImageView("/drawable/icon/account.png");
+        password = new ImageView("/drawable/icon/password.png");
+        account.setLayoutX(20);
+        account.setLayoutY(100);
+        password.setLayoutX(20);
+        password.setLayoutY(180);
+        getChildren().addAll(account,password);
     }
 
     private void validate() {
@@ -30,7 +41,7 @@ public class LoginDialog extends LoginBox {
         }
     }
 
-    private void add(String name, String password) {
+    private void add() {
         if (Operate.addUser(nameField.getText(), passWordField.getText())) {
             ContentPane.getSelf().showTips("注册成功");
         } else {

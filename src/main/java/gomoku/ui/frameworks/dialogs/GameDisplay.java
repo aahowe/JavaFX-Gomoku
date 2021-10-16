@@ -10,6 +10,7 @@ import gomoku.ui.frameworks.OperationBar;
 import gomoku.ui.nodes.GameButton;
 import gomoku.ui.nodes.StepListView;
 
+
 /**
  * 棋盘对话框
  */
@@ -80,6 +81,46 @@ public class GameDisplay extends DialogBase {
             contentPane.showDialog(contentPane.getNameInputDialog());
         });
         operationBar.getOperationButtons()[2].setOnAction(e -> ContentPane.getSelf().showDialog(ContentPane.getSelf().getSaveDialog()));
+        //回放棋局
+        /*operationBar.getOperationButtons()[3].setOnAction(e -> {
+            operationBar.getListView().getSelectionModel().select(0);
+            operationBar.getStepButtons()[1].setDisable(true);
+            closed = true;
+            operationBar.getTimeDisplay().stop();
+            operationBar.getTimeDisplay().clear();
+            controller.updateCountDisplay();
+
+            int n = save.getSteps().size();
+            for (int k = n - 1; k > controller.getPeekIndex(); k--) {
+                if (list.getItems().size() >= k + 2)
+                    list.getItems().remove(k + 1);
+                int i = save.getSteps().get(k).getI();
+                int j = save.getSteps().get(k).getJ();
+                save.getChessBoard()[i][j] = PieceType.EMPTY;
+                pieceGroup[i][j].pop();
+                System.out.println("删除：" + k);
+            }
+
+            for (int k = 0; k < save.getSteps().size()-1; k++) {
+                System.out.println(k);
+                if (k == 0) {
+                    Step step = save.getSteps().get(0);
+                    int i = step.getI();
+                    int j = step.getJ();
+                    int type = save.getChessBoard()[i][j];
+                    pieceGroup[i][j].push(type);
+                    operationBar.getListView().getItems().add("[" + Controller.getTypeName(type) + "]" + " " + Controller.getPieceName(i, j));
+                } else {
+                    Step step = save.getSteps().get(k);
+                    workTime(step.getTime());
+                    int i = step.getI();
+                    int j = step.getJ();
+                    int type = save.getChessBoard()[i][j];
+                    pieceGroup[i][j].push(type);
+                    operationBar.getListView().getItems().add("[" + Controller.getTypeName(type) + "]" + " " + Controller.getPieceName(i, j));
+                }
+            }
+        });*/
         operationBar.getAISwitch().selectedProperty().addListener(ov -> {
             controller.restart();
             go.setAi(operationBar.getAISwitch().isSelected());
@@ -147,4 +188,10 @@ public class GameDisplay extends DialogBase {
         }
     }
     //鼠标单击时的事件处理内部类
+
+    private static void workTime(long ms) {
+        final long l = System.currentTimeMillis();
+        while (System.currentTimeMillis() <= l + ms) {
+        }
+    }
 }

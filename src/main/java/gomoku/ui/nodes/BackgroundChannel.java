@@ -1,7 +1,7 @@
 package gomoku.ui.nodes;
 
 import javafx.scene.image.ImageView;
-import gomoku.ui.Configure;
+import gomoku.ConfigService;
 import gomoku.ui.animations.EasingProperty;
 import gomoku.ui.animations.SlowRolling;
 
@@ -21,7 +21,7 @@ public class BackgroundChannel extends ImageView {
         setLayoutX(0);
         setLayoutY(0);
         setOpacity(0);
-        rollingAnimation = new SlowRolling(this.layoutXProperty(), 0, Configure.viewportWidth - width + 10);
+        rollingAnimation = new SlowRolling(this.layoutXProperty(), 0, ConfigService.viewportWidth - width + 10);
     }
 
     public BackgroundChannel(String url, boolean rollable) {

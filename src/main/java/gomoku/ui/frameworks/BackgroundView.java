@@ -3,7 +3,7 @@ package gomoku.ui.frameworks;
 import gomoku.ui.nodes.LogoView;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
-import gomoku.ui.Configure;
+import gomoku.ConfigService;
 import gomoku.ui.animations.EasingProperty;
 import gomoku.ui.elements.FadingCircle;
 import gomoku.ui.nodes.BackgroundChannel;
@@ -14,7 +14,6 @@ import gomoku.ui.nodes.MenuBar;
  */
 
 public class BackgroundView extends Pane {
-    private int currentChannel = -1;
     private GaussianBlur blurEffect;
     private EasingProperty blurAnimation;
     private EasingProperty opacityAnimation;
@@ -25,8 +24,8 @@ public class BackgroundView extends Pane {
         getStyleClass().add("background_view");
 
         logoView = new LogoView();
-        logoView.setLayoutX((Configure.viewportWidth - LogoView.width) / 2);
-        logoView.setLayoutY((Configure.viewportHeight - MenuBar.height - LogoView.height) / 2);
+        logoView.setLayoutX((ConfigService.viewportWidth - LogoView.width) / 2);
+        logoView.setLayoutY((ConfigService.viewportHeight - MenuBar.height - LogoView.height) / 2);
         getChildren().addAll(logoView);
 
         blurEffect = new GaussianBlur(0.0);
@@ -37,34 +36,15 @@ public class BackgroundView extends Pane {
         self = this;
     }
 
-    public BackgroundView(String defaultBackground) {
-        this();
-        addBackgroundChannel(defaultBackground);
-        switchBackground(0);
-    }
-
     public void addBackgroundChannel(String url) {
         BackgroundChannel img = new BackgroundChannel(url);
         getChildren().add(getChildren().size() - 1, img);
-    }
-    //增加背景图
-
-    public void switchBackground(int index) {
-        if (index >= 0 && index < getChildren().size() - 1 && index != currentChannel) {
-            if (currentChannel >= 0) {
-                BackgroundChannel current = (BackgroundChannel) getChildren().get(currentChannel);
-                current.fade();
-                current.stopRolling();
-            }
-            BackgroundChannel newChannel = (BackgroundChannel) getChildren().get(index);
-            newChannel.show();
-            if (newChannel.getImage().getWidth() > Configure.viewportWidth) {
-                newChannel.startRolling();
-            }
-            currentChannel = index;
+        img.show();
+        if (img.getImage().getWidth() > ConfigService.viewportWidth) {
+            img.startRolling();
         }
     }
-    //切换背景图
+    //增加背景图
 
     public static BackgroundView getSelf() {
         return self;

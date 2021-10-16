@@ -1,7 +1,7 @@
 package gomoku.ui.frameworks.dialogs;
 
 import javafx.scene.image.ImageView;
-import gomoku.ui.Configure;
+import gomoku.ConfigService;
 import gomoku.ui.frameworks.ContentPane;
 import gomoku.ui.nodes.ContextLabel;
 import gomoku.ui.nodes.GreenButton;
@@ -22,7 +22,7 @@ public class MessageBox extends DialogBase {
         super(width, height, true);
         getButtonBar().addButton(new GreenButton("确认"), new RedButton("取消"));
         this.title = new TitleLabel(title);
-        this.title.setGraphic(new ImageView(Configure.getResource("drawable/icon/msg.png")));
+        this.title.setGraphic(new ImageView(ConfigService.getResource("drawable/icon/msg.png")));
         this.context = new ContextLabel(context);
         this.title.setLayoutX(20);
         this.title.setLayoutY(10);

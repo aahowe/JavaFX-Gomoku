@@ -61,7 +61,7 @@ public class OperationBar extends BorderPane {
     }
     //白棋数量面板
 
-    public GameCheckBox getAISwitch(){
+    public GameCheckBox getAISwitch() {
         return bottom.useAI;
     }
     //获取AI开关
@@ -127,19 +127,21 @@ public class OperationBar extends BorderPane {
         private RedButton startGame;
         private BlueButton saveGame;
         private GameButton loadGame;
+        private GameButton replayGame;
 
         public OperationView() {
             useAI = new GameCheckBox("以AI为对手");
             startGame = new RedButton("开始新游戏", 15);
             saveGame = new BlueButton("保存存档", 15);
             loadGame = new GameButton("载入存档", 15);
+            replayGame = new GameButton("回放棋局",15);
             setSpacing(10);
             setAlignment(Pos.CENTER);
-            getChildren().addAll(useAI,startGame, saveGame, loadGame);
+            getChildren().addAll(useAI, startGame, saveGame, loadGame,replayGame);
         }
 
         public GameButton[] getOperationButtons() {
-            return new GameButton[]{startGame, saveGame, loadGame};
+            return new GameButton[]{startGame, saveGame, loadGame,replayGame};
         }
     }
 }

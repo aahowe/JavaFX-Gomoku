@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Operate {
-    Connection conn = null;
 
     public static boolean ConnectUserDB(String loginname, String loginpassword) {
         ResultSet rs;

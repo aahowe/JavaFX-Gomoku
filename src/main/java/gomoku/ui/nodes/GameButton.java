@@ -1,13 +1,12 @@
 package gomoku.ui.nodes;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.scene.control.Button;
 
 /**
  * 普通按钮
  */
 
-public class GameButton extends Button {
+public class GameButton extends JFXButton {
     public GameButton(String title) {
         super(title);
         this.getStyleClass().add("game_button");

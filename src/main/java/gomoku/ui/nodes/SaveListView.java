@@ -4,7 +4,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
-import gomoku.ui.Configure;
+import gomoku.ConfigService;
 
 /**
  * 存档列表框
@@ -13,7 +13,7 @@ import gomoku.ui.Configure;
 public class SaveListView extends ListView<String> {
     public SaveListView() {
         super();
-        getStylesheets().add(Configure.getResource("stylesheet/savelist.css"));
+        getStylesheets().add(ConfigService.getResource("stylesheet/savelist.css"));
         setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             @Override
             public ListCell<String> call(ListView<String> param) {
@@ -29,7 +29,7 @@ public class SaveListView extends ListView<String> {
             super.updateItem(item, empty);
             this.setText(item);
             if (!empty) {
-                this.setGraphic(new ImageView(Configure.getResource("drawable/icon/item.png")));
+                this.setGraphic(new ImageView(ConfigService.getResource("drawable/icon/item.png")));
             } else {
                 this.setGraphic(null);
             }

@@ -10,7 +10,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.util.Duration;
 
 /**
- * 属性缓动类，详细原理请参考项目开发文档
+ * 属性缓动类
  */
 
 public class EasingProperty {

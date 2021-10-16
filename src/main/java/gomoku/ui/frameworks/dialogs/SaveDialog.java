@@ -4,7 +4,7 @@ import gomoku.database.Operate;
 import gomoku.kernel.Controller;
 import gomoku.kernel.Save;
 import javafx.scene.image.ImageView;
-import gomoku.ui.Configure;
+import gomoku.ConfigService;
 import gomoku.ui.frameworks.ContentPane;
 import gomoku.ui.nodes.*;
 
@@ -23,7 +23,7 @@ public class SaveDialog extends DialogBase {
         super(1024, 600, true);
         titleLabel = new TitleLabel("管理存档");
 
-        titleLabel.setGraphic(new ImageView(Configure.getResource("drawable/icon/save.png")));
+        titleLabel.setGraphic(new ImageView(ConfigService.getResource("drawable/icon/save.png")));
         titleLabel.setLayoutX(20);
         titleLabel.setLayoutY(10);
         listView = new SaveListView();
@@ -33,7 +33,6 @@ public class SaveDialog extends DialogBase {
         listView.prefHeightProperty().bind(this.heightProperty().subtract(200));
         getChildren().addAll(titleLabel, listView);
         refresh();
-
         getButtonBar().addButton(new GameButton("刷新"), new BlueButton("载入"), new RedButton("删除"));
         ContentPane contentPane = ContentPane.getSelf();
         getButtonBar().getButton(1).setDisable(true);
@@ -42,7 +41,6 @@ public class SaveDialog extends DialogBase {
         getButtonBar().getButton(1).setOnAction(e -> {
             String name = listView.getSelectionModel().getSelectedItem();
             if (Objects.equals(name, Controller.getSelf().getSave().getSaveName())) {
-                System.out.println("存档相同");
                 contentPane.showDialog(contentPane.getGameDisplay());
             }
             Controller.getSelf().loadGame(name);
@@ -68,11 +66,6 @@ public class SaveDialog extends DialogBase {
 
 
     }
-
-    public SaveListView getListView() {
-        return this.listView;
-    }
-    //取存档列表界面对象
 
     public List<Save> refresh() {
         listView.getItems().clear();

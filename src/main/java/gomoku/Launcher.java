@@ -1,6 +1,5 @@
 package gomoku;
 
-import gomoku.ui.Configure;
 import gomoku.ui.frameworks.ContentPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,6 +14,7 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        ConfigService.configLoad();
         System.out.println(" _____                       _          \n" +
                 "|  __ \\                     | |         \n" +
                 "| |  \\/ ___  _ __ ___   ___ | | ___   _ \n" +
@@ -23,18 +23,20 @@ public class Launcher extends Application {
                 " \\____/\\___/|_| |_| |_|\\___/|_|\\_\\\\__,_|           | \\| \\__/    |__) \\__/ \\__> .");
         self = this;
         this.primaryStage = primaryStage;
-        showContentPane();
+        primaryStage.setWidth(ConfigService.config.getViewPortWidth());
+        primaryStage.setHeight(ConfigService.config.getViewPortHeight());
         primaryStage.setTitle("Gomoku");
         primaryStage.setResizable(false);
-        primaryStage.getIcons().add(new Image(Configure.getResource("drawable/icon.png")));
+        primaryStage.getIcons().add(new Image(ConfigService.getResource("drawable/icon.png")));
         primaryStage.show();
+        showContentPane();
     }
     //start入口函数
 
     public void showContentPane() {
         contentPane = new ContentPane();
-        contentScene = new Scene(contentPane, Configure.viewportWidth, Configure.viewportHeight);
-        contentScene.getStylesheets().add(Configure.getResource("stylesheet/root.css"));
+        contentScene = new Scene(contentPane, ConfigService.viewportWidth, ConfigService.viewportHeight);
+        contentScene.getStylesheets().add(ConfigService.getResource("stylesheet/root.css"));
         primaryStage.setScene(contentScene);
     }
     //播放完片头动画后调用此函数来显示游戏主界面
