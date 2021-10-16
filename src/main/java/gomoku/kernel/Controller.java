@@ -50,13 +50,13 @@ public class Controller {
 
         if (currentType == PieceType.BLACK) {
             gameDisplay.getGo().iGo(i, j, currentType);
-            gameDisplay.getPiece(i, j).push(currentType);
+            gameDisplay.getPiece(i, j).push(currentType,save.getSteps().size());
             list.getItems().add("[" + getTypeName(currentType) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float)save.getSteps().peek().getTime() / 1000 + " 秒");
             list.getSelectionModel().select(list.getItems().size() - 1);
             if (gameDisplay.getGo().isAi()) {
                 int[] ai = gameDisplay.getGo().aiGo(PieceType.WHITE);
                 save.getSteps().push(new Step(ai[0], ai[1], 0));
-                gameDisplay.getPiece(ai[0], ai[1]).push(PieceType.WHITE);
+                gameDisplay.getPiece(ai[0], ai[1]).push(PieceType.WHITE,save.getSteps().size());
                 save.getChessBoard()[ai[0]][ai[1]] = PieceType.WHITE;
                 list.getItems().add("[" + getTypeName(PieceType.WHITE) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float)save.getSteps().peek().getTime() / 1000 + " 秒");
                 list.getSelectionModel().select(list.getItems().size() - 1);
@@ -64,7 +64,7 @@ public class Controller {
             }
         } else if (currentType == PieceType.WHITE) {
             gameDisplay.getGo().iGo1(i, j, currentType);
-            gameDisplay.getPiece(i, j).push(currentType);
+            gameDisplay.getPiece(i, j).push(currentType,save.getSteps().size());
             list.getItems().add("[" + getTypeName(currentType) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float)save.getSteps().peek().getTime() / 1000 + " 秒");
             list.getSelectionModel().select(list.getItems().size() - 1);
         }
@@ -122,7 +122,7 @@ public class Controller {
                 int i = save.getSteps().get(k).getI();
                 int j = save.getSteps().get(k).getJ();
                 int type = getType(k);
-                gameDisplay.getPiece(i, j).push(type);
+                gameDisplay.getPiece(i, j).push(type,save.getSteps().size());
             }
         } else {
             for (int k = peekIndex; k > index; k--) {
@@ -167,7 +167,7 @@ public class Controller {
             int i = step.getI();
             int j = step.getJ();
             int type = save.getChessBoard()[i][j];
-            gameDisplay.getPiece(i, j).push(type);
+            gameDisplay.getPiece(i, j).push(type,save.getSteps().size());
             System.out.println(type);
             list.getItems().add("[" + getTypeName(type) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float)step.getTime() / 1000 + " 秒");
         }

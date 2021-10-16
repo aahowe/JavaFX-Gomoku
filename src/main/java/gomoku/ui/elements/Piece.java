@@ -1,5 +1,6 @@
 package gomoku.ui.elements;
 
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import gomoku.kernel.PieceType;
@@ -13,6 +14,7 @@ import gomoku.ui.animations.EasingProperty;
 public class Piece extends Pane {
     public static final double width = 44;
     public static final double height = 44;
+    private static Label num;
 
     private int currentType = PieceType.EMPTY;
     private ImageView currentImage;
@@ -51,7 +53,7 @@ public class Piece extends Pane {
 
     }
 
-    public void push(int type) {
+    public void push(int type, Integer num) {
         if (currentType == type) {
             return;
         }
@@ -62,12 +64,16 @@ public class Piece extends Pane {
                 currentScaleAnimation = blackScaleAnimation;
                 currentOpacityAnimation = blackOpacityAnimation;
                 currentType = PieceType.BLACK;
+                Piece.num = new Label(num.toString());
+                Piece.num.setStyle("-fx-text-fill: white");
                 break;
             case PieceType.WHITE:
                 currentImage = pieceWhite;
                 currentScaleAnimation = whiteScaleAnimation;
                 currentOpacityAnimation = whiteOpacityAnimation;
                 currentType = PieceType.WHITE;
+                Piece.num = new Label(num.toString());
+                Piece.num.setStyle("-fx-text-fill: black");
                 break;
             default:
                 return;
@@ -77,9 +83,11 @@ public class Piece extends Pane {
         currentOpacityAnimation.setValueImmediately(0.0);
         currentOpacityAnimation.setToValue(1.0);
         circle = new FadingCircle(width / 2, height / 2);
+        Piece.num.setLayoutX(16);
+        Piece.num.setLayoutY(13);
         setMouseTransparent(true);
         currentType = type;
-        getChildren().addAll(circle, currentImage);
+        getChildren().addAll(circle, currentImage, Piece.num);
     }
     //显示指定类型的棋子（黑或白）
 
