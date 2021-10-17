@@ -1,0 +1,2 @@
+1.若出现"This application requires a Java Runtime Environment"，则需要在程序所在文件夹放入jre1.8，并且命名为"jre"
+2.Windows缩放必须小于等于124%（否则程序启动后底边栏不显示）
