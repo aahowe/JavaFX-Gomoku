@@ -11,12 +11,12 @@ public class LoginDialog extends LoginBox {
     ImageView password;
 
     public LoginDialog() {
-        super("登录", "");
+        super("登录");
         getButtonBar().getButton(0).setOnAction(e ->
                 validate()
         );
         getButtonBar().getButton(1).setOnAction(e ->
-                add()
+                ContentPane.getSelf().showDialog(ContentPane.getSelf().getRegisterDialog())
         );
         account = new ImageView("/drawable/icon/account.png");
         password = new ImageView("/drawable/icon/password.png");
@@ -41,12 +41,5 @@ public class LoginDialog extends LoginBox {
         }
     }
 
-    private void add() {
-        if (Operate.addUser(nameField.getText(), passWordField.getText())) {
-            ContentPane.getSelf().showTips("注册成功");
-        } else {
-            ContentPane.getSelf().showTips("用户名已被注册");
-        }
-    }
 
 }

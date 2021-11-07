@@ -1,10 +1,7 @@
 package gomoku.ui.nodes;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.shape.Rectangle;
-import gomoku.ui.animations.EasingProperty;
 
 /**
  * 导航栏按钮

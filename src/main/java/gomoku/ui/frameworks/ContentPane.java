@@ -1,6 +1,7 @@
 package gomoku.ui.frameworks;
 
 import gomoku.kernel.Save;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import gomoku.ConfigService;
 import gomoku.ui.animations.EasingProperty;
@@ -24,7 +25,7 @@ public class ContentPane extends Pane {
     private GameDisplay gameDisplay;
     private NameInputDialog nameInputDialog;
     private LoginDialog loginDialog;
-    public Loading loading;
+    private RegisterDialog registerDialog;
 
     private boolean popupShowed = false;
     private PopupBase currentPopup;
@@ -44,7 +45,6 @@ public class ContentPane extends Pane {
         tipDisplay.setLayoutY(30);
         tipDisplay.setLayoutX(100);
 
-        //loading=new Loading();
 
         menuBar = new MenuBar();
         menuBar.addButton("登录");
@@ -56,6 +56,7 @@ public class ContentPane extends Pane {
         menuBar.prefWidthProperty().bind(this.widthProperty());
 
         loginDialog = new LoginDialog();
+        registerDialog = new RegisterDialog();
         saveDialog = new SaveDialog();
         exitDialog = new MessageBox("确认", "你确认要注销登录吗？");
         exitDialog.getButtonBar().getButton(0).setOnAction(e -> {
@@ -248,6 +249,10 @@ public class ContentPane extends Pane {
         return this.loginDialog;
     }
     //取登录对话框
+
+    public RegisterDialog getRegisterDialog() {
+        return this.registerDialog;
+    }
 
     public void setUsername(String name) {
         Username = name;

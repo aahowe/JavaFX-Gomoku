@@ -1,6 +1,8 @@
 package gomoku;
 
 
+import java.awt.*;
+
 public class Config {
     private int viewPortWidth, viewPortHeight;
     private String databaseURL, databaseName, databasePassword;
