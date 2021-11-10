@@ -15,7 +15,7 @@ public class LoginBox extends DialogBase {
 
     public LoginBox(String title) {
         super(width, height, true);
-        getButtonBar().addButton(new GreenButton("登录"), new RedButton("注册"));
+        getButtonBar().addButton(new GreenButton("登录"), new RedButton("注册"), new GameButton("修改密码"));
         this.title = new TitleLabel(title);
         this.title.setGraphic(new ImageView(ConfigService.getResource("drawable/icon/login.png")));
         this.title.setLayoutX(20);

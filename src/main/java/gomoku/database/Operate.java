@@ -34,7 +34,32 @@ public class Operate {
         return false;
     }
 
-    public static boolean addUser(String addName, String addPassword) {
+    public static boolean changePassword(String name, String password, String phone) {
+        ResultSet rs;
+        Statement stmt;
+
+        Connect databaseConnect = new Connect();
+        Connection con = databaseConnect.dbConnection();
+        try {
+            // 创建Statement对象
+            stmt = con.createStatement();
+
+            // 执行SQL语句
+            rs = stmt.executeQuery("select * from User");
+            while (rs.next()) {
+                if (name.equals(rs.getString(1)) && phone.equals(rs.getString(3))) {
+                    PreparedStatement ps = con.prepareStatement("update user set password = '" + password + "'where phone ='" + phone + "'");
+                    ps.executeUpdate();
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean addUser(String addName, String addPassword, String addPhone) {
         ResultSet rs;
         Statement stmt;
 
@@ -58,11 +83,12 @@ public class Operate {
 
         try {
             // 创建Statement对象
-            String sql1 = "insert into User value(?,?)";
+            String sql1 = "insert into User value(?,?,?)";
             PreparedStatement ps1 = con.prepareStatement(sql1);
             if (!Objects.equals(addName, "")) {
                 ps1.setString(1, addName);
                 ps1.setString(2, addPassword);
+                ps1.setString(3, addPhone);
                 // 执行SQL语句
                 ps1.executeUpdate();
                 return true;
@@ -115,18 +141,6 @@ public class Operate {
             ps.setString(1, name);
             ps.setObject(2, data);
             ps.setString(3, saveName);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void updateSave(String pname, String name) {
-        Connect databaseConnect = new Connect();
-        Connection con = databaseConnect.dbConnection();
-
-        try {
-            PreparedStatement ps = con.prepareStatement("update Save set savename = '" + name + "'where savename ='" + pname + "'");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

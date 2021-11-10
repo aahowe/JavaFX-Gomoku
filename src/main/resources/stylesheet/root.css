@@ -40,7 +40,7 @@
     -fx-background-color: #1a2634;
     -fx-font-size: 20;
     -fx-text-fill: #b8b8b8;
-    -fx-pref-width: 200;
+    -fx-pref-width: 185;
     -fx-background-radius: 2em;
     -jfx-button-type: RAISED;
 }
@@ -100,6 +100,7 @@
     -fx-text-fill: white;
     -fx-font-size: 25;
     -fx-opacity: 0.3;
+    -fx-prompt-text-fill: #8dcadc;
 }
 
 .alert_label {

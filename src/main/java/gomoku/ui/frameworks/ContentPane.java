@@ -1,6 +1,7 @@
 package gomoku.ui.frameworks;
 
 import gomoku.kernel.Save;
+import gomoku.ui.nodes.MenuButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import gomoku.ConfigService;
@@ -9,6 +10,7 @@ import gomoku.ui.frameworks.dialogs.*;
 import gomoku.ui.nodes.MenuBar;
 import gomoku.ui.nodes.TimeDisplay;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,10 +28,12 @@ public class ContentPane extends Pane {
     private NameInputDialog nameInputDialog;
     private LoginDialog loginDialog;
     private RegisterDialog registerDialog;
+    private ChangePasswordDialog changePasswordDialog;
 
     private boolean popupShowed = false;
     private PopupBase currentPopup;
     private MenuBar menuBar;
+    private ArrayList<MenuButton> buttons = new ArrayList<>();
     private TipDisplay tipDisplay;
 
     private List<Save> saveList;
@@ -57,6 +61,7 @@ public class ContentPane extends Pane {
 
         loginDialog = new LoginDialog();
         registerDialog = new RegisterDialog();
+        changePasswordDialog = new ChangePasswordDialog();
         saveDialog = new SaveDialog();
         exitDialog = new MessageBox("确认", "你确认要注销登录吗？");
         exitDialog.getButtonBar().getButton(0).setOnAction(e -> {
@@ -252,6 +257,10 @@ public class ContentPane extends Pane {
 
     public RegisterDialog getRegisterDialog() {
         return this.registerDialog;
+    }
+
+    public ChangePasswordDialog getChangePasswordDialog() {
+        return changePasswordDialog;
     }
 
     public void setUsername(String name) {

@@ -14,7 +14,7 @@ import gomoku.ui.animations.EasingProperty;
 public class Piece extends Pane {
     public static final double width = 44;
     public static final double height = 44;
-    private static Label num;
+    private Label num;
 
     private int currentType = PieceType.EMPTY;
     private ImageView currentImage;
@@ -53,7 +53,7 @@ public class Piece extends Pane {
 
     }
 
-    public void push(int type, Integer num) {
+    public void push(int type, Integer number) {
         if (currentType == type) {
             return;
         }
@@ -64,16 +64,16 @@ public class Piece extends Pane {
                 currentScaleAnimation = blackScaleAnimation;
                 currentOpacityAnimation = blackOpacityAnimation;
                 currentType = PieceType.BLACK;
-                Piece.num = new Label(num.toString());
-                Piece.num.setStyle("-fx-text-fill: white");
+                num = new Label(number.toString());
+                num.setStyle("-fx-text-fill: white");
                 break;
             case PieceType.WHITE:
                 currentImage = pieceWhite;
                 currentScaleAnimation = whiteScaleAnimation;
                 currentOpacityAnimation = whiteOpacityAnimation;
                 currentType = PieceType.WHITE;
-                Piece.num = new Label(num.toString());
-                Piece.num.setStyle("-fx-text-fill: black");
+                num = new Label(number.toString());
+                num.setStyle("-fx-text-fill: black");
                 break;
             default:
                 return;
@@ -83,11 +83,11 @@ public class Piece extends Pane {
         currentOpacityAnimation.setValueImmediately(0.0);
         currentOpacityAnimation.setToValue(1.0);
         circle = new FadingCircle(width / 2, height / 2);
-        Piece.num.setLayoutX(16);
-        Piece.num.setLayoutY(13);
+        num.setLayoutX(14);
+        num.setLayoutY(11);
         setMouseTransparent(true);
         currentType = type;
-        getChildren().addAll(circle, currentImage, Piece.num);
+        getChildren().addAll(circle, currentImage, num);
     }
     //显示指定类型的棋子（黑或白）
 
@@ -100,6 +100,7 @@ public class Piece extends Pane {
         if (currentType == PieceType.EMPTY) {
             return;
         }
+        num.setText("");
         currentScaleAnimation.setToValue(width * 1.5);
         currentOpacityAnimation.setToValue(0.0);
         currentType = PieceType.EMPTY;

@@ -15,16 +15,25 @@ public class LoginDialog extends LoginBox {
         getButtonBar().getButton(0).setOnAction(e ->
                 validate()
         );
-        getButtonBar().getButton(1).setOnAction(e ->
-                ContentPane.getSelf().showDialog(ContentPane.getSelf().getRegisterDialog())
-        );
+        getButtonBar().getButton(1).setOnAction(e -> {
+            ContentPane.getSelf().getRegisterDialog().setNameField("");
+            ContentPane.getSelf().getRegisterDialog().setPassWordField("");
+            ContentPane.getSelf().getRegisterDialog().setPhoneField("");
+            ContentPane.getSelf().showDialog(ContentPane.getSelf().getRegisterDialog());
+        });
+        getButtonBar().getButton(2).setOnAction(e -> {
+            ContentPane.getSelf().getChangePasswordDialog().setNameField("");
+            ContentPane.getSelf().getChangePasswordDialog().setPassWordField("");
+            ContentPane.getSelf().getChangePasswordDialog().setPhoneField("");
+            ContentPane.getSelf().showDialog(ContentPane.getSelf().getChangePasswordDialog());
+        });
         account = new ImageView("/drawable/icon/account.png");
         password = new ImageView("/drawable/icon/password.png");
         account.setLayoutX(20);
         account.setLayoutY(100);
         password.setLayoutX(20);
         password.setLayoutY(180);
-        getChildren().addAll(account,password);
+        getChildren().addAll(account, password);
     }
 
     private void validate() {
