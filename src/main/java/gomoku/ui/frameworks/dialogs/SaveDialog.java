@@ -18,10 +18,13 @@ import java.util.Objects;
 public class SaveDialog extends DialogBase {
     private TitleLabel titleLabel;
     private SaveListView listView;
+    //进入存档对话框要做的事情
+    private int type;
 
     public SaveDialog() {
         super(1024, 600, true);
-        titleLabel = new TitleLabel("管理存档");
+        type = 1;
+        titleLabel = new TitleLabel("您的存档");
 
         titleLabel.setGraphic(new ImageView(ConfigService.getResource("drawable/icon/save.png")));
         titleLabel.setLayoutX(20);
@@ -39,13 +42,22 @@ public class SaveDialog extends DialogBase {
         getButtonBar().getButton(2).setDisable(true);
         getButtonBar().getButton(0).setOnAction(e -> refresh());
         getButtonBar().getButton(1).setOnAction(e -> {
-            String name = listView.getSelectionModel().getSelectedItem();
-            if (Objects.equals(name, Controller.getSelf().getSave().getSaveName())) {
+            if (type == 1) {
+                String name = listView.getSelectionModel().getSelectedItem();
+                if (Objects.equals(name, Controller.getSelf().getSave().getSaveName())) {
+                    contentPane.showDialog(contentPane.getGameDisplay());
+                }
+                Controller.getSelf().loadGame(name);
+                contentPane.showDialog(contentPane.getGameDisplay());
+            } else if (type == 2) {
+                String name = listView.getSelectionModel().getSelectedItem();
+                if (Objects.equals(name, Controller.getSelf().getSave().getSaveName())) {
+                    contentPane.showDialog(contentPane.getGameDisplay());
+                }
+                Controller.getSelf().replay(name);
+                GameDisplay.getSelf().getOperationBar().getOperationButtons()[1].setDisable(true);
                 contentPane.showDialog(contentPane.getGameDisplay());
             }
-            Controller.getSelf().loadGame(name);
-            Controller.getSelf().setCurrentSave(name);
-            contentPane.showDialog(contentPane.getGameDisplay());
         });
         getButtonBar().getButton(2).setOnAction(e -> {
             int index = listView.getSelectionModel().getSelectedIndex();
@@ -54,19 +66,21 @@ public class SaveDialog extends DialogBase {
             listView.getItems().remove(index);
         });
         listView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
-            boolean disabled = true;
-            if (listView.getSelectionModel().getSelectedIndex() >= 0) {
-                disabled = false;
-            } else {
-                disabled = true;
+            if (type==1){
+                boolean disabled = listView.getSelectionModel().getSelectedIndex() < 0;
+                getButtonBar().getButton(1).setDisable(disabled);
+                getButtonBar().getButton(2).setDisable(disabled);
+            }else if (type==2){
+                boolean disabled = listView.getSelectionModel().getSelectedIndex() < 0;
+                getButtonBar().getButton(1).setDisable(disabled);
+                getButtonBar().getButton(2).setDisable(true);
             }
-            getButtonBar().getButton(1).setDisable(disabled);
-            getButtonBar().getButton(2).setDisable(disabled);
         });
 
 
     }
 
+    //刷新存档列表
     public List<Save> refresh() {
         listView.getItems().clear();
         List<Save> saveList = Operate.ConnectSaveDB(ContentPane.getSelf().getUsername());
@@ -77,6 +91,9 @@ public class SaveDialog extends DialogBase {
         }
         return saveList;
     }
-    //刷新存档列表
 
+    //设置进入存档对话框需要进行的操作
+    public void setType(int type) {
+        this.type = type;
+    }
 }

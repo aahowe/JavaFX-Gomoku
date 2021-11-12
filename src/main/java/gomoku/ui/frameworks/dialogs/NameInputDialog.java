@@ -23,7 +23,6 @@ public class NameInputDialog extends InputDialog {
             controller.saveGame(name);
             contentPane.setSaveList(contentPane.getSaveDialog().refresh());
             contentPane.showDialog(contentPane.getSaveDialog());
-            controller.setCurrentSave(name);
         });
         getButtonBar().getButton(1).setOnAction(e -> {
             contentPane.showDialog(contentPane.getGameDisplay());

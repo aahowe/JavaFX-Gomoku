@@ -18,10 +18,9 @@ public class LogoView extends Pane {
     private Label info;
     private EasingProperty logoAnimation;
     private EasingProperty bkgAnimation;
-    public static final String infoStr = "Gomoku \n" +
+    public static final String infoStr = "Gomoku \n\n" +
             "作者\t\thowe.wang\n" +
-            "版本\t\t1.0\n"+
-            "参考开源项目\tiGoBang(动画组件)\n\t\t\tAiringGo(五子棋逻辑)\n\t\t\tJFoenix(UI组件)";
+            "版本\t\t1.1\n";
     public static final double width = 800;
     public static final double height = 500;
     public boolean stretched = false;

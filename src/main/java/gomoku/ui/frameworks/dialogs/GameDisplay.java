@@ -1,6 +1,7 @@
 package gomoku.ui.frameworks.dialogs;
 
 import gomoku.kernel.*;
+import gomoku.ui.nodes.TimeDisplay;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import gomoku.ui.elements.Piece;
@@ -16,6 +17,7 @@ import gomoku.ui.nodes.StepListView;
  */
 
 public class GameDisplay extends DialogBase {
+    private static GameDisplay self;
     public static final double width = 900;
     public static final double height = 700;
     private Controller controller;
@@ -23,12 +25,16 @@ public class GameDisplay extends DialogBase {
     private ChessBoard chessBoard;
     private OperationBar operationBar;
     private ContentPane contentPane;
-    private Save save;
     private Gomoku go;
+    private HTimer2Plus timer;
+    private PlayWatcher2Plus player;
     private boolean closed = false;
 
     public GameDisplay() {
         super(width, height);
+        self = this;
+        timer = new HTimer2Plus();
+        player = new PlayWatcher2Plus(timer);
         contentPane = ContentPane.getSelf();
         chessBoard = new ChessBoard();
         chessBoard.setLayoutX(25);
@@ -50,8 +56,7 @@ public class GameDisplay extends DialogBase {
         operationBar.layoutXProperty().bind(this.widthProperty().subtract(operationBar.widthProperty()));
         operationBar.prefHeightProperty().bind(this.heightProperty());
         getChildren().add(operationBar);
-        save = new Save();
-        controller = new Controller(this, save);
+        controller = new Controller(this, new Save());
         controller.restart();
 
 
@@ -73,6 +78,7 @@ public class GameDisplay extends DialogBase {
             list.getSelectionModel().select(list.getSelectionModel().getSelectedIndex() + 1);
         });
         operationBar.getOperationButtons()[0].setOnAction(e -> {
+            operationBar.getOperationButtons()[1].setDisable(false);
             controller.restart();
             go.setAi(operationBar.getAISwitch().isSelected());
         });
@@ -80,52 +86,26 @@ public class GameDisplay extends DialogBase {
             contentPane.getNameInputDialog().getTextField().setText("");
             contentPane.showDialog(contentPane.getNameInputDialog());
         });
-        operationBar.getOperationButtons()[2].setOnAction(e -> ContentPane.getSelf().showDialog(ContentPane.getSelf().getSaveDialog()));
+        operationBar.getOperationButtons()[2].setOnAction(e -> {
+            ContentPane.getSelf().getSaveDialog().setType(1);
+            ContentPane.getSelf().showDialog(ContentPane.getSelf().getSaveDialog());
+        });
         //回放棋局
-        /*operationBar.getOperationButtons()[3].setOnAction(e -> {
-            operationBar.getListView().getSelectionModel().select(0);
-            operationBar.getStepButtons()[1].setDisable(true);
-            closed = true;
-            operationBar.getTimeDisplay().stop();
-            operationBar.getTimeDisplay().clear();
-            controller.updateCountDisplay();
+        operationBar.getOperationButtons()[3].setOnAction(e -> {
 
-            int n = save.getSteps().size();
-            for (int k = n - 1; k > controller.getPeekIndex(); k--) {
-                if (list.getItems().size() >= k + 2)
-                    list.getItems().remove(k + 1);
-                int i = save.getSteps().get(k).getI();
-                int j = save.getSteps().get(k).getJ();
-                save.getChessBoard()[i][j] = PieceType.EMPTY;
-                pieceGroup[i][j].pop();
-                System.out.println("删除：" + k);
-            }
-
-            for (int k = 0; k < save.getSteps().size()-1; k++) {
-                System.out.println(k);
-                if (k == 0) {
-                    Step step = save.getSteps().get(0);
-                    int i = step.getI();
-                    int j = step.getJ();
-                    int type = save.getChessBoard()[i][j];
-                    pieceGroup[i][j].push(type);
-                    operationBar.getListView().getItems().add("[" + Controller.getTypeName(type) + "]" + " " + Controller.getPieceName(i, j));
-                } else {
-                    Step step = save.getSteps().get(k);
-                    workTime(step.getTime());
-                    int i = step.getI();
-                    int j = step.getJ();
-                    int type = save.getChessBoard()[i][j];
-                    pieceGroup[i][j].push(type);
-                    operationBar.getListView().getItems().add("[" + Controller.getTypeName(type) + "]" + " " + Controller.getPieceName(i, j));
-                }
-            }
-        });*/
+            ContentPane.getSelf().getSaveDialog().setType(2);
+            ContentPane.getSelf().showDialog(ContentPane.getSelf().getSaveDialog());
+        });
         operationBar.getAISwitch().selectedProperty().addListener(ov -> {
+            operationBar.getOperationButtons()[1].setDisable(false);
             controller.restart();
             go.setAi(operationBar.getAISwitch().isSelected());
         });
 
+    }
+
+    public static GameDisplay getSelf() {
+        return self;
     }
 
     public Piece getPiece(int i, int j) {
@@ -149,15 +129,6 @@ public class GameDisplay extends DialogBase {
     }
     //设置是否禁止下棋
 
-
-    public void setSave(Save save) {
-        this.save = save;
-    }
-
-    public Save getSave() {
-        return save;
-    }
-
     public Controller getController() {
         return controller;
     }
@@ -170,6 +141,23 @@ public class GameDisplay extends DialogBase {
         return go;
     }
     //返回下棋控制
+
+
+    public HTimer2Plus getTimer() {
+        return timer;
+    }
+
+    public void setTimer(HTimer2Plus timer) {
+        this.timer = timer;
+    }
+
+    public PlayWatcher2Plus getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(PlayWatcher2Plus player) {
+        this.player = player;
+    }
 
     private class OnMouseClickHandler implements EventHandler<MouseEvent> {
         private int i;

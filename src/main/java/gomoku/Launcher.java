@@ -20,7 +20,7 @@ public class Launcher extends Application {
                 "| |  \\/ ___  _ __ ___   ___ | | ___   _ \n" +
                 "| | __ / _ \\| '_ ` _ \\ / _ \\| |/ / | | |                 __      __        __    /     \n" +
                 "| |_\\ \\ (_) | | | | | | (_) |   <| |_| |           |\\ | /  \\    |__) |  | / _`  /    \n" +
-                " \\____/\\___/|_| |_| |_|\\___/|_|\\_\\\\__,_|           | \\| \\__/    |__) \\__/ \\__> .");
+                " \\____/\\___/|_| |_| |_|\\___/|_|\\_\\\\__,_|           | \\| \\__/    |__) \\__/ \\__> .             v1.1");
         self = this;
         this.primaryStage = primaryStage;
         primaryStage.setWidth(ConfigService.config.getViewPortWidth());

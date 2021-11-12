@@ -3,7 +3,7 @@ package gomoku.kernel;
 import java.io.Serializable;
 import java.util.Stack;
 
-public class Save implements Serializable {
+public class Save implements Serializable{
     private int[] myWin, aiWin;
     private Stack<Step> steps;
     private int win;
@@ -86,4 +86,5 @@ public class Save implements Serializable {
     public void setSaveName(String saveName) {
         this.saveName = saveName;
     }
+
 }

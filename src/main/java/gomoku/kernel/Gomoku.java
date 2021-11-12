@@ -1,13 +1,10 @@
 package gomoku.kernel;
 
-import java.util.Stack;
 
 public class Gomoku {
-    private Save save;
     private Object[][][] wins;
     private int count = 0;
     private int[] myWin, aiWin;
-    private Stack<Step> steps;
     private boolean ai;
     private long start, end;
     private int win;
@@ -15,10 +12,8 @@ public class Gomoku {
 
 
     public Gomoku(Save save) {
-        this.save = save;
         myWin = save.getMyWin();
         aiWin = save.getAiWin();
-        steps = save.getSteps();
         win = save.getWin();
         chessBoard = save.getChessBoard();
         wins = new Object[15][15][572];
@@ -88,7 +83,6 @@ public class Gomoku {
             chessBoard[7][7] = 2;
             answer[0] = 7;
             answer[1] = 7;
-            //me=!me;
             return answer;
         }
 
@@ -177,7 +171,6 @@ public class Gomoku {
 
     public void iGo(int i, int j, int type) {
         if (chessBoard[i][j] == 0) {
-
             // 改变棋盘信息(该位置有棋子)
             chessBoard[i][j] = type;
 
@@ -221,16 +214,8 @@ public class Gomoku {
     //玩家2下棋
 
 
-    public long getStart() {
-        return start;
-    }
-
     public void setStart(long start) {
         this.start = start;
-    }
-
-    public long getEnd() {
-        return end;
     }
 
     public void setEnd(long end) {
@@ -255,13 +240,11 @@ public class Gomoku {
         return ai;
     }
 
-    public Save getSave() {
-        save.setAiWin(aiWin);
-        save.setMyWin(myWin);
-        save.setChessBoard(chessBoard);
-        save.setSteps(steps);
-        save.setWin(win);
-        return save;
+    public int[] getMyWin() {
+        return myWin;
     }
 
+    public int[] getAiWin() {
+        return aiWin;
+    }
 }

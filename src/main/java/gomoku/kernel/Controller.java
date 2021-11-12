@@ -15,7 +15,6 @@ public class Controller {
     private GameDisplay gameDisplay;
     private int peekIndex = 0;
     private ContentPane contentPane;
-    private String currentSave = "";
     private static Controller self;
 
     public Controller(GameDisplay gameDisplay, Save save) {
@@ -40,7 +39,6 @@ public class Controller {
         cutToSelected();
         int currentType = getCurrentType();
         StepListView list = gameDisplay.getOperationBar().getListView();
-        save.getChessBoard()[i][j] = currentType;
         //若为第一个step，时间为0
         if (save.getSteps().size() == 0) {
             save.getSteps().push(new Step(i, j, 0, save.getSteps().size()));
@@ -57,7 +55,6 @@ public class Controller {
                 int[] ai = gameDisplay.getGo().aiGo(PieceType.WHITE);
                 save.getSteps().push(new Step(ai[0], ai[1], 0, save.getSteps().size()));
                 gameDisplay.getPiece(ai[0], ai[1]).push(PieceType.WHITE, save.getSteps().size());
-                save.getChessBoard()[ai[0]][ai[1]] = PieceType.WHITE;
                 list.getItems().add("[" + getTypeName(PieceType.WHITE) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float) save.getSteps().peek().getTime() / 1000 + " 秒");
                 list.getSelectionModel().select(list.getItems().size() - 1);
                 gameDisplay.getGo().setStart(System.currentTimeMillis());
@@ -90,7 +87,6 @@ public class Controller {
         gameDisplay.setClosed(false);
         gameDisplay.getOperationBar().getTimeDisplay().stop();
         gameDisplay.getOperationBar().getTimeDisplay().clear();
-        currentSave = "";
         updateCountDisplay();
     }
     //重新开始游戏
@@ -137,6 +133,10 @@ public class Controller {
     //将界面数据临时退回到第index步
 
     public void saveGame(String name) {
+        save.setWin(gameDisplay.getGo().getWin());
+        save.setChessBoard(gameDisplay.getGo().chessBoard);
+        save.setMyWin(gameDisplay.getGo().getMyWin());
+        save.setAiWin(gameDisplay.getGo().getAiWin());
         save.setTime(gameDisplay.getOperationBar().getTimeDisplay().getTime());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
         Date date = new Date(System.currentTimeMillis());
@@ -147,9 +147,9 @@ public class Controller {
 
     public void loadGame(String name) {
         restart();
+        ContentPane.getSelf().setSaveList(ContentPane.getSelf().getSaveDialog().refresh());
         for (Save s : contentPane.getSaveList()) {
             if (Objects.equals(s.getSaveName(), name)) {
-                gameDisplay.setSave(s);
                 save = s;
                 System.out.println("存档载入成功");
             }
@@ -158,7 +158,21 @@ public class Controller {
     }
     //载入存档，name指定存档名（不包含拓展名）
 
+    public void replay(String name) {
+        restart();
+        ContentPane.getSelf().setSaveList(ContentPane.getSelf().getSaveDialog().refresh());
+        for (Save s : contentPane.getSaveList()) {
+            if (Objects.equals(s.getSaveName(), name)) {
+                save = s;
+                System.out.println("存档载入成功");
+            }
+        }
+        gameDisplay.setClosed(true);
+        GameDisplay.getSelf().getPlayer().watch();
+    }
+
     public void sync() {
+        gameDisplay.setGo(new Gomoku(save));
         StepListView list = gameDisplay.getOperationBar().getListView();
         if (save.getWin() != 0) {
             gameDisplay.setClosed(true);
@@ -169,7 +183,6 @@ public class Controller {
             int j = step.getJ();
             int type = save.getChessBoard()[i][j];
             gameDisplay.getPiece(i, j).push(type, save.getSteps().get(k).getNum() + 1);
-            System.out.println(type);
             list.getItems().add("[" + getTypeName(type) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float) step.getTime() / 1000 + " 秒");
         }
         list.getSelectionModel().select(list.getItems().size() - 1);
@@ -225,19 +238,16 @@ public class Controller {
         this.updateCountDisplay(PieceType.WHITE);
     }
 
-    public String getCurrentSave() {
-        return this.currentSave;
-    }
-
     public int getPeekIndex() {
         return peekIndex;
-    }
-
-    public void setCurrentSave(String save) {
-        this.currentSave = save;
     }
 
     public Save getSave() {
         return save;
     }
+
+    public void setSave(Save save) {
+        this.save = save;
+    }
+
 }

@@ -33,7 +33,6 @@ public class ContentPane extends Pane {
     private boolean popupShowed = false;
     private PopupBase currentPopup;
     private MenuBar menuBar;
-    private ArrayList<MenuButton> buttons = new ArrayList<>();
     private TipDisplay tipDisplay;
 
     private List<Save> saveList;
@@ -103,6 +102,7 @@ public class ContentPane extends Pane {
             if (Objects.equals(Username, "")) {
                 showTips("请先登录");
             } else {
+                saveDialog.setType(1);
                 setSaveList(saveDialog.refresh());
                 showDialog(getSaveDialog());
             }
@@ -142,7 +142,7 @@ public class ContentPane extends Pane {
             currentDialog = null;
         }
         TimeDisplay timeDisplay = gameDisplay.getOperationBar().getTimeDisplay();
-        if (dialog == gameDisplay && !gameDisplay.isClosed() && gameDisplay.getSave().getSteps().size() > 0) {
+        if (dialog == gameDisplay && !gameDisplay.isClosed() && gameDisplay.getController().getSave().getSteps().size() > 0) {
             if (!timeDisplay.isStarted()) {
                 timeDisplay.start();
             }
