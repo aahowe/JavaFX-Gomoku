@@ -65,6 +65,7 @@ public class ContentPane extends Pane {
         exitDialog = new MessageBox("确认", "你确认要注销登录吗？");
         exitDialog.getButtonBar().getButton(0).setOnAction(e -> {
             Username = "";
+            gameDisplay.getController().restart();
             showTips("注销成功");
             getLoginDialog().getNameField().setText("");
             getLoginDialog().getPassWordField().setText("");
@@ -284,4 +285,7 @@ public class ContentPane extends Pane {
         this.saveList = saveList;
     }
 
+    public MenuBar getMenuBar() {
+        return menuBar;
+    }
 }

@@ -1,5 +1,6 @@
 package gomoku.kernel;
 
+import gomoku.ui.frameworks.ContentPane;
 import gomoku.ui.frameworks.dialogs.GameDisplay;
 import gomoku.ui.nodes.StepListView;
 import javafx.application.Platform;
@@ -58,6 +59,10 @@ public class PlayWatcher2Plus extends Thread {
                 gameDisplay.setGo(new Gomoku(controller.getSave()));
                 StepListView list = gameDisplay.getOperationBar().getListView();
                 gameDisplay.getOperationBar().getOperationButtons()[0].setDisable(true);
+                GameDisplay.getSelf().getOperationBar().getAISwitch().setDisable(true);
+                GameDisplay.getSelf().getOperationBar().getOperationButtons()[2].setDisable(true);
+                ContentPane.getSelf().getMenuBar().getButton(2).setDisable(true);
+                ContentPane.getSelf().getMenuBar().getButton(4).setDisable(true);
                 if (hTimer2Plus.getTime() <= 0) {
                     Platform.runLater(() -> {
                         Step step = controller.getSave().getSteps().get(k[0]);
@@ -70,6 +75,11 @@ public class PlayWatcher2Plus extends Thread {
                     });
                     k[0]++;
                     if (k[0] >= controller.getSave().getSteps().size() - 1) {
+                        gameDisplay.getOperationBar().getOperationButtons()[0].setDisable(false);
+                        gameDisplay.getOperationBar().getOperationButtons()[2].setDisable(false);
+                        GameDisplay.getSelf().getOperationBar().getAISwitch().setDisable(false);
+                        ContentPane.getSelf().getMenuBar().getButton(2).setDisable(false);
+                        ContentPane.getSelf().getMenuBar().getButton(4).setDisable(false);
                         thread.interrupt(); // 观察者不要盯着看了，因为没有棋子要下了
                     } else {
                         // 还有下一个棋子的话，就让闹钟重新开始倒计时（时间为下一个棋子的落子时间）

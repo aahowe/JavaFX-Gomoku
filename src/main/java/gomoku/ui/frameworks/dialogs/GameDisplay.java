@@ -92,11 +92,11 @@ public class GameDisplay extends DialogBase {
         });
         //回放棋局
         operationBar.getOperationButtons()[3].setOnAction(e -> {
-
             ContentPane.getSelf().getSaveDialog().setType(2);
             ContentPane.getSelf().showDialog(ContentPane.getSelf().getSaveDialog());
         });
         operationBar.getAISwitch().selectedProperty().addListener(ov -> {
+            operationBar.getOperationButtons()[0].setDisable(false);
             operationBar.getOperationButtons()[1].setDisable(false);
             controller.restart();
             go.setAi(operationBar.getAISwitch().isSelected());

@@ -1,7 +1,0 @@
-<gomoku.Config>
-  <viewPortWidth>1400</viewPortWidth>
-  <viewPortHeight>900</viewPortHeight>
-  <databaseURL>jdbc:mysql://localhost:3306/gomoku</databaseURL>
-  <databaseName>root</databaseName>
-  <databasePassword>111111</databasePassword>
-</gomoku.Config>

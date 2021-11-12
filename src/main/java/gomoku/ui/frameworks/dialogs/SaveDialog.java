@@ -48,6 +48,7 @@ public class SaveDialog extends DialogBase {
                     contentPane.showDialog(contentPane.getGameDisplay());
                 }
                 Controller.getSelf().loadGame(name);
+                GameDisplay.getSelf().getOperationBar().getOperationButtons()[1].setDisable(false);
                 contentPane.showDialog(contentPane.getGameDisplay());
             } else if (type == 2) {
                 String name = listView.getSelectionModel().getSelectedItem();
