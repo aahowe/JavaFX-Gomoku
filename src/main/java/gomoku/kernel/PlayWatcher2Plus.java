@@ -70,7 +70,7 @@ public class PlayWatcher2Plus extends Thread {
                         int j = step.getJ();
                         int type = controller.getSave().getChessBoard()[i][j];
                         gameDisplay.getPiece(i, j).push(type, controller.getSave().getSteps().get(k[0]).getNum() + 1);
-                        list.getItems().add("[" + controller.getTypeName(type) + "]" + " " + controller.getPieceName(i, j) + "  思考用时:" + (float) step.getTime() / 1000 + " 秒");
+                        list.getItems().add("[" + Controller.getTypeName(type) + "]" + " " + Controller.getPieceName(i, j) + "  思考用时:" + (float) step.getTime() / 1000 + " 秒");
                         list.getSelectionModel().select(list.getItems().size() - 1);
                     });
                     k[0]++;

@@ -53,7 +53,7 @@ public class Controller {
             list.getSelectionModel().select(list.getItems().size() - 1);
             if (gameDisplay.getGo().isAi()) {
                 int[] ai = gameDisplay.getGo().aiGo(PieceType.WHITE);
-                save.getSteps().push(new Step(ai[0], ai[1], 0, save.getSteps().size()));
+                save.getSteps().push(new Step(ai[0], ai[1], 100, save.getSteps().size()));
                 gameDisplay.getPiece(ai[0], ai[1]).push(PieceType.WHITE, save.getSteps().size());
                 list.getItems().add("[" + getTypeName(PieceType.WHITE) + "]" + " " + getPieceName(i, j) + "  思考用时:" + (float) save.getSteps().peek().getTime() / 1000 + " 秒");
                 list.getSelectionModel().select(list.getItems().size() - 1);
